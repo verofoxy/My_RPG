@@ -1,0 +1,941 @@
+system/dialog.c:    dialog->name = create_label(MAIN_FONT, 30, "", sfWhite);
+system/dialog.c:    dialog->label = create_label(MAIN_FONT, 30, "", sfWhite);
+system/dialog.c:    dialog->background = create_image(back, NULL);
+system/dialog.c:    CHECK_MALLOC(dialog->name)
+system/dialog.c:    CHECK_MALLOC(dialog->label)
+system/dialog.c:    CHECK_MALLOC(dialog->background)
+system/dialog.c:    set_img_position(dialog->background, (sfVector2f) {0, 350});
+system/dialog.c:    set_pos_label(dialog->name, (sfVector2f) {100, 420});
+system/dialog.c:    set_pos_label(dialog->label, (sfVector2f) {100, 470});
+system/dialog.c:    m_memset(dialog->draw_txt, '\0', 255);
+system/dialog.c:    dialog->curr_time = 0;
+system/dialog.c:    dialog->curr_index = 0;
+system/dialog.c:    dialog->sentence = NULL;
+system/dialog.c:    int length = len_tab(pnj->dialogs);
+system/dialog.c:    dialog->sentence = pnj->dialogs[index_dialog];
+system/dialog.c:    change_text(dialog->name, pnj->name);
+system/dialog.c:    change_text(dialog->label, dialog->sentence);
+system/dialog.c:    dialog->curr_time += sfTime_asSeconds(sfClock_getElapsedTime(clock));
+system/dialog.c:    dialog->curr_index = dialog->curr_time *
+system/dialog.c:    (float) m_strlen(dialog->sentence) / DIALOG_SPEED;
+system/dialog.c:    if (dialog->curr_index >= m_strlen(dialog->sentence)) {
+system/dialog.c:        dialog->curr_index -=
+system/dialog.c:        (dialog->curr_index - (float) m_strlen(dialog->sentence)) + 1;
+system/dialog.c:    m_memset(dialog->draw_txt, '\0', 255);
+system/dialog.c:    m_strncpy(dialog->draw_txt, dialog->sentence, (int) dialog->curr_index + 1);
+system/dialog.c:    change_text(dialog->label, dialog->draw_txt);
+system/dialog.c:    draw_img(dialog->background, window);
+system/dialog.c:    draw_lbl(dialog->name, window);
+system/dialog.c:    draw_lbl(dialog->label, window);
+system/dialog.c:    image_destroy(dialog->background);
+system/dialog.c:    label_destroy(dialog->label);
+system/dialog.c:    label_destroy(dialog->name);
+system/init_game.c:    CHECK_MALLOC((sys->window = create_window(
+system/init_game.c:    CHECK_MALLOC((sys->clock = sfClock_create()));
+system/init_game.c:    sys->actual_scene = MENU_SCENE;
+system/init_game.c:    sys->entities = entities;
+system/init_game.c:    sys->paused = false;
+system/init_game.c:    sys->map = NULL;
+system/init_game.c:    sys->camera = NULL;
+system/init_game.c:    sys->dialog_box = init_dialog(BOX_BCK);
+system/init_game.c:    sys->sounds = set_sound();
+system/init_game.c:    sys->settings = (settings_t) {true, true};
+system/init_game.c:    UNEXPECTED_EXIT(sys->map = create_map_from_type(CITY, sys->entities));
+system/init_game.c:    sys->camera = init_camera(sys->map->size.x, sys->map->size.y);
+system/init_game.c:            sys->entities,
+system/init_game.c:        list_destroy(&sys->entities[i], destroy_entity);
+system/init_game.c:    camera_destroy(sys->camera);
+system/init_game.c:    list_destroy(&sys->map->items, destroy_item);
+system/init_game.c:    map_destroy(sys->map);
+system/init_game.c:    if (selected_trigger->trigger_type != GO)
+system/init_game.c:    if (sys->map->loc == selected_trigger->new_map) {
+system/init_game.c:        change_position(GET_PLAYER(sys->entities), selected_trigger->spawn);
+system/init_game.c:    list_destroy(&sys->entities[PNJ_BRANCH], destroy_entity);
+system/init_game.c:    sys->map = create_map_from_type(selected_trigger->new_map, sys->entities);
+system/init_game.c:    UNEXPECTED_EXIT(sys->map)
+system/init_game.c:    sys->camera->map_width = sys->map->size.x;
+system/init_game.c:    sys->camera->map_height = sys->map->size.y;
+system/init_game.c:    change_position(GET_PLAYER(sys->entities), selected_trigger->spawn);
+system/init_game.c:    update_camera(sys->camera, GET_PLAYER(sys->entities));
+system/init_game.c:    apply_camera_map(sys->camera, sys->map);
+system/init_game.c:    apply_cam_on_entities(sys->camera, sys->entities);
+system/scene.c:    sys->actual_scene = new_scene;
+system/destroy_game.c:    list_destroy(&sys->sounds, destroy_sound);
+system/destroy_game.c:    sfClock_destroy(sys->clock);
+system/destroy_game.c:    window_destroy(sys->window);
+system/destroy_game.c:    destroy_dialog(sys->dialog_box);
+quest/quest.c:        free(h_quest[i]->name_of_quest);
+quest/quest.c:        free(h_quest[i]->description);
+quest/quest.c:    quest->activate = false;
+quest/quest.c:    quest->state = 2;
+quest/quest.c:    quest->activate = json_object_get_bool(obj, "activate");
+quest/quest.c:    quest->pos = get_position_from_object(obj, "position");
+quest/quest.c:    quest->name_of_quest =  m_strdup(json_object_get_str(obj, "quest"));
+quest/quest.c:    quest->state = json_object_get_int(obj, "state");
+quest/quest.c:    quest->description =  m_strdup(json_object_get_str(obj, "description"));
+quest/quest.c:        quest->loc = FOREST;
+quest/quest.c:        quest->loc = CAVE;
+quest/validation_quest.c:    if (quest->activate && sfFloatRect_contains\
+quest/validation_quest.c:    (&player->collision_mask, quest->pos.x, quest->pos.y) && quest->loc == e) {
+quest/validation_quest.c:    for (i = 0; player->quests[i]; i++)
+quest/validation_quest.c:        valid_quest(player->quests[i], player, e);
+quest/draw_quests.c:        change_text(title, quests[i]->name_of_quest);
+quest/draw_quests.c:        desc_first_part = m_strcat_dup(quests[i]->description,  " - ");
+quest/draw_quests.c:        (quests[i]->state == FINISHED_QUEST) ? "Finished" : "In Progress");
+entity/combat/entity_combat.c:    switch (src_attack->type) {
+entity/combat/entity_combat.c:                src_attack->entity_value.player,
+entity/combat/entity_combat.c:                dest_attack->entity_value.enemy
+entity/combat/entity_combat.c:                src_attack->entity_value.enemy,
+entity/combat/entity_combat.c:                dest_attack->entity_value.player
+entity/combat/entity_combat.c:    switch (entity->type) {
+entity/combat/entity_combat.c:            return check_death_player(entity->entity_value.player);
+entity/combat/entity_combat.c:            return check_death_enemy(entity->entity_value.enemy);
+entity/combat/run_boss_fight.c:    player_t *player = ((player_t *) GET_PLAYER(sys->entities));
+entity/combat/run_boss_fight.c:    add_entity(sys->entities, get_boss(map->loc), ENEMY_BRANCH);
+entity/combat/run_boss_fight.c:    if (sys->actual_scene == WORLD_SCENE && run_away == false) {
+entity/combat/run_boss_fight.c:            GET_PLAYER(sys->entities),
+entity/combat/run_boss_fight.c:                trigger->area.left + trigger->area.width / 2 -
+entity/combat/run_boss_fight.c:                player->collision_mask.width / 2,
+entity/combat/run_boss_fight.c:                trigger->area.top + trigger->area.height / 2 -
+entity/combat/run_boss_fight.c:                player->collision_mask.height / 2
+entity/combat/run_boss_fight.c:        trigger->activate = false;
+entity/entity_management.c:    switch (entity->type) {
+entity/entity_management.c:            return entity->entity_value.player;
+entity/entity_management.c:            return entity->entity_value.pnj;
+entity/entity_management.c:            return entity->entity_value.enemy;
+entity/get_entity_animation.c:    switch (ent->type) {
+entity/get_entity_animation.c:            ent->entity_value.player->move = off;
+entity/get_entity_animation.c:            ent->entity_value.pnj->move = off;
+entity/get_entity_animation.c:    sfIntRect *frames = malloc(sizeof(sfIntRect) * arr_frames->length);
+entity/get_entity_animation.c:    for (i = 0; i < arr_frames->length; i++) {
+entity/handle_entity.c:    entity->entity_id = create_id((float) branch_id,
+entity/handle_entity.c:    return entity->entity_id;
+entity/handle_entity.c:        i = (int) ((id - (long int)id) * 10000);
+entity/handle_entity.c:        return (-1);
+entity/entity.c:    entity->type = type;
+entity/entity.c:    entity->entity_value = create_entity_from_type(entity->type, entity_value);
+entity/entity.c:    switch (ent->type) {
+entity/entity.c:            return draw_player(ent->entity_value.player, window);
+entity/entity.c:            return draw_enemy(ent->entity_value.enemy, window);
+entity/entity.c:            return draw_pnj(ent->entity_value.pnj, window);
+entity/entity.c:            draw_entity(tmp->element, window);
+entity/entity.c:            tmp = tmp->next;
+entity/entity.c:    float dt = sfTime_asSeconds(sfClock_getElapsedTime(s->clock));
+entity/entity.c:    switch (ent->type) {
+entity/entity.c:            update_player(ent->entity_value.player, map, entities, s);
+entity/entity.c:            update_pnj(ent->entity_value.pnj, entities, map, dt);
+entity/entity.c:            update_entity(tmp->element, map, entities, sys);
+entity/entity.c:            tmp = tmp->next;
+entity/player/player_animation.c:    *curr = list_get_from_tag(obj->animations, obj->curr_animation);
+entity/player/player_animation.c:        list_get_from_tag(obj->animations, tag_anim) == NULL)
+entity/player/player_animation.c:    if (m_strcmp(tag_anim, obj->curr_animation) == 0 &&
+entity/player/player_animation.c:        !((animation_t *) list_get_from_tag(obj->animations, tag_anim))
+entity/player/player_animation.c:                ->states[ANIM_FINISH])
+entity/player/player_animation.c:    obj->curr_animation = tag_anim;
+entity/player/player_animation.c:    n_curr = list_get_from_tag(obj->animations, tag_anim);
+entity/player/player_animation.c:    n_curr->switch_to = switch_after;
+entity/player/player_animation.c:    n_curr->durations[ANIM_CURR_FRAME] = 0;
+entity/player/player_animation.c:    n_curr->durations[ANIM_CURR_TIME] = 0;
+entity/player/player_animation.c:    n_curr->states[ANIM_FINISH] = false;
+entity/player/destroy_player.c:    image_destroy(player->sheet);
+entity/player/destroy_player.c:    list_destroy(&player->animations, animation_destroy);
+entity/player/destroy_player.c:    destroy_quest(player->quests);
+entity/player/destroy_player.c:    free(player->name);
+entity/player/create_player.c:    player->move = (sfVector2f) {0, 0};
+entity/player/create_player.c:    player->name = m_strdup(json_object_get_str(obj, "name"));
+entity/player/create_player.c:    player->attck = json_object_get_int(obj, "attack_point");
+entity/player/create_player.c:    player->pos = get_position_from_object(obj, "position");
+entity/player/create_player.c:    player->health = get_health_from_object(obj, "health");
+entity/player/create_player.c:    player->animations = load_animations(obj, "animations");
+entity/player/create_player.c:    player->bag = NULL;
+entity/player/create_player.c:    player->quests = create_quest();
+entity/player/create_player.c:    player->exp = get_exp_from_object(obj, "exp");
+entity/player/create_player.c:    player->sheet = create_image(json_object_get_str(obj, "sheet"),
+entity/player/create_player.c:    player->collision_mask = get_mask_from_obj(obj, "mask", player->pos);
+entity/player/create_player.c:    player->curr_animation =
+entity/player/create_player.c:    set_img_rect(player->sheet,
+entity/player/create_player.c:    ((animation_t *) L_TAG(player->animations, player->curr_animation))
+entity/player/create_player.c:    ->frames[0]);
+entity/player/player_combat.c:    player->exp.lvl += 1;
+entity/player/player_combat.c:    player->attck += 5;
+entity/player/player_combat.c:    player->health.max_health += 5;
+entity/player/player_combat.c:    player->exp.max_xp += 5;
+entity/player/player_combat.c:    player->exp.curr_xp += bounty_xp;
+entity/player/player_combat.c:    if (player->exp.curr_xp >= player->exp.max_xp) {
+entity/player/player_combat.c:        player->exp.curr_xp = player->exp.curr_xp - player->exp.max_xp;
+entity/player/player_combat.c:    list_t *items = src->bag;
+entity/player/player_combat.c:    dest->health.current_health -= src->attck;
+entity/player/player_combat.c:        tmp = items->element;
+entity/player/player_combat.c:        if (tmp->itm_type == ATTACK_ITEM)
+entity/player/player_combat.c:            dest->health.current_health -= tmp->bonus_attack;
+entity/player/player_combat.c:        items = items->next;
+entity/player/player_combat.c:    if (dest->health.current_health <= 0)
+entity/player/player_combat.c:        dest->health.current_health = 0;
+entity/player/player_combat.c:    player->health.current_health += add_heart ;
+entity/player/player_combat.c:    if (player->health.current_health >= player->health.max_health)
+entity/player/player_combat.c:        player->health.current_health = player->health.max_health;
+entity/player/player_combat.c:    return player->health.current_health <= 0;
+entity/player/player_moves.c:    player->pos.x = new_pos.x;
+entity/player/player_moves.c:    player->pos.y = new_pos.y;
+entity/player/player_moves.c:    player->collision_mask.left = new_pos.x + 10;
+entity/player/player_moves.c:    player->collision_mask.top = new_pos.y + 20;
+entity/player/player_moves.c:    set_img_position(player->sheet, player->pos);
+entity/player/player_moves.c:    float dt = sfTime_asSeconds(sfClock_getElapsedTime(sys->clock));
+entity/player/player_moves.c:        player->pos.x += (player->move.x * MOVE_SPEED * dt);
+entity/player/player_moves.c:        player->pos.y += (player->move.y * MOVE_SPEED * dt);
+entity/player/player_moves.c:        player->collision_mask.left = player->pos.x + 10;
+entity/player/player_moves.c:        player->collision_mask.top = player->pos.y + 20;
+entity/player/player_moves.c:        set_img_position(player->sheet, player->pos);
+entity/player/player_moves.c:    player->move = (sfVector2f) {0, 0};
+entity/player/player_moves.c:    draw_img(player->sheet, window);
+entity/enemy/enemy_combat.c:    dest->health.current_health -= src->attck;
+entity/enemy/enemy_combat.c:    if (dest->health.current_health <= 0)
+entity/enemy/enemy_combat.c:        dest->health.current_health = 0;
+entity/enemy/enemy_combat.c:    return enemy->health.current_health <= 0;
+entity/enemy/enemy_animation.c:    *curr = list_get_from_tag(obj->animations, obj->curr_animation);
+entity/enemy/enemy_animation.c:        list_get_from_tag(obj->animations, tag_anim) == NULL)
+entity/enemy/enemy_animation.c:    if (m_strcmp(tag_anim, obj->curr_animation) == 0 &&
+entity/enemy/enemy_animation.c:        !((animation_t *) list_get_from_tag(obj->animations, tag_anim))
+entity/enemy/enemy_animation.c:                ->states[ANIM_FINISH])
+entity/enemy/enemy_animation.c:    obj->curr_animation = tag_anim;
+entity/enemy/enemy_animation.c:    n_curr = list_get_from_tag(obj->animations, tag_anim);
+entity/enemy/enemy_animation.c:    n_curr->switch_to = switch_after;
+entity/enemy/enemy_animation.c:    n_curr->durations[ANIM_CURR_FRAME] = 0;
+entity/enemy/enemy_animation.c:    n_curr->durations[ANIM_CURR_TIME] = 0;
+entity/enemy/enemy_animation.c:    n_curr->states[ANIM_FINISH] = false;
+entity/enemy/destroy_enemy.c:    list_destroy(&enemy->animations, animation_destroy);
+entity/enemy/destroy_enemy.c:    image_destroy(enemy->sheet);
+entity/enemy/destroy_enemy.c:    free(enemy->name);
+entity/enemy/enemy.c:    selected_monster = rand()  % (arr_enemy.length - 1);
+entity/enemy/enemy.c:    draw_img(enemy->sheet, window);
+entity/enemy/create_enemy.c:    enemy->name = m_strdup(json_object_get_str(obj, "name"));
+entity/enemy/create_enemy.c:    enemy->rect = get_size_canvas(obj, "size");
+entity/enemy/create_enemy.c:    enemy->attck = json_object_get_int(obj, "attack_point");
+entity/enemy/create_enemy.c:    enemy->sheet = create_image(json_object_get_str(obj, "sheet"),
+entity/enemy/create_enemy.c:    enemy->curr_animation =
+entity/enemy/create_enemy.c:    enemy->animations = load_animations(obj, "animations");
+entity/enemy/create_enemy.c:    set_img_rect(enemy->sheet,
+entity/enemy/create_enemy.c:    ((animation_t *) L_TAG(enemy->animations, enemy->curr_animation))
+entity/enemy/create_enemy.c:    ->frames[0]);
+entity/enemy/create_enemy.c:    set_img_position(enemy->sheet, get_position_from_object(obj, "position"));
+entity/enemy/create_enemy.c:    enemy->health = get_health_from_object(obj, "health");
+entity/enemy/monster_spawn.c:    if (sys->map->loc == CITY
+entity/enemy/monster_spawn.c:    || (((player_t *) GET_PLAYER(sys->entities))->move.x == 0
+entity/enemy/monster_spawn.c:    && ((player_t *) GET_PLAYER(sys->entities))->move.y == 0))
+entity/enemy/monster_spawn.c:    time += sfTime_asSeconds(sfClock_getElapsedTime(sys->clock));
+entity/enemy/monster_spawn.c:    add_entity(sys->entities, get_random_enemy(sys->map->loc), ENEMY_BRANCH);
+entity/pnj/destroy_pnj.c:    for (i = 0; pnj->dialogs[i]; i++)
+entity/pnj/destroy_pnj.c:        free(pnj->dialogs[i]);
+entity/pnj/destroy_pnj.c:    free(pnj->dialogs);
+entity/pnj/destroy_pnj.c:    image_destroy(pnj->sheet);
+entity/pnj/destroy_pnj.c:    list_destroy(&pnj->animations, animation_destroy);
+entity/pnj/destroy_pnj.c:    free(pnj->name);
+entity/pnj/pnj.c:    draw_img(pnj->sheet, window);
+entity/pnj/pnj.c:    *curr = list_get_from_tag(pnj->animations, pnj->curr_animation);
+entity/pnj/pnj.c:        list_get_from_tag(obj->animations, tag_anim) == NULL)
+entity/pnj/pnj.c:    if (m_strcmp(tag_anim, obj->curr_animation) == 0 &&
+entity/pnj/pnj.c:        !((animation_t *) list_get_from_tag(obj->animations, tag_anim))
+entity/pnj/pnj.c:                ->states[ANIM_FINISH])
+entity/pnj/pnj.c:    obj->curr_animation = tag_anim;
+entity/pnj/pnj.c:    n_curr = list_get_from_tag(obj->animations, tag_anim);
+entity/pnj/pnj.c:    n_curr->switch_to = switch_after;
+entity/pnj/pnj.c:    n_curr->durations[ANIM_CURR_FRAME] = 0;
+entity/pnj/pnj.c:    n_curr->durations[ANIM_CURR_TIME] = 0;
+entity/pnj/pnj.c:    n_curr->states[ANIM_FINISH] = false;
+entity/pnj/pnj.c:    float offset_x = pnj->trigger->area.left - pnj->pos.x;
+entity/pnj/pnj.c:    float offset_y = pnj->trigger->area.top - pnj->pos.y;
+entity/pnj/pnj.c:        pnj->pos.x += (pnj->move.x * MOVE_PNJ_SPEED * dt);
+entity/pnj/pnj.c:        pnj->pos.y += (pnj->move.y * MOVE_PNJ_SPEED * dt);
+entity/pnj/pnj.c:        pnj->collision_mask.left = pnj->pos.x + 10;
+entity/pnj/pnj.c:        pnj->collision_mask.top = pnj->pos.y + 20;
+entity/pnj/pnj.c:        pnj->trigger->area.left = pnj->pos.x + offset_x;
+entity/pnj/pnj.c:        pnj->trigger->area.top = pnj->pos.y + offset_y;
+entity/pnj/pnj.c:        set_img_position(pnj->sheet, pnj->pos);
+entity/pnj/pnj.c:    pnj->move = (sfVector2f) {0, 0};
+entity/pnj/ia.c:    if (!pnj->ia.reverse) {
+entity/pnj/ia.c:        if (pnj->ia.type == HORIZONTAL) {
+entity/pnj/ia.c:        if (pnj->ia.type == HORIZONTAL) {
+entity/pnj/ia.c:    pnj->ia.curr_time += dt;
+entity/pnj/ia.c:    if (pnj->ia.curr_time >= pnj->ia.delay) {
+entity/pnj/ia.c:        pnj->ia.reverse = !pnj->ia.reverse;
+entity/pnj/ia.c:        pnj->ia.curr_time = 0;
+entity/pnj/ia.c:        play_ia(pnjs->element, sfTime_asSeconds(sfClock_getElapsedTime(clock)));
+entity/pnj/ia.c:        pnjs = pnjs->next;
+entity/pnj/create_pnj.c:    pnj->curr_animation =
+entity/pnj/create_pnj.c:    pnj->animations = load_animations(obj, "animations");
+entity/pnj/create_pnj.c:    set_img_rect(pnj->sheet,
+entity/pnj/create_pnj.c:    ((animation_t *) L_TAG(pnj->animations, pnj->curr_animation))
+entity/pnj/create_pnj.c:    ->frames[0]);
+entity/pnj/create_pnj.c:    pnj->move = (sfVector2f) {0, 0};
+entity/pnj/create_pnj.c:    pnj->name = m_strdup(json_object_get_str(obj, "name"));
+entity/pnj/create_pnj.c:    pnj->pos = get_position_from_object(obj, "position");
+entity/pnj/create_pnj.c:    pnj->sheet = create_image(json_object_get_str(obj, "sheet"),
+entity/pnj/create_pnj.c:    pnj->collision_mask = get_mask_from_obj(obj, "mask", pnj->pos);
+entity/pnj/create_pnj.c:    pnj->ia = get_ia_parameters(obj, "ia");
+entity/pnj/create_pnj.c:    pnj->trigger = create_trigger(json_object_get_object(obj, "trigger"));
+entity/pnj/create_pnj.c:    pnj->dialogs = load_dialogs(json_object_get_array(obj, "dialogs"));
+animations/animation_using.c:    switch (ent->type) {
+animations/animation_using.c:            set_img_rect(ent->entity_value.player->sheet, curr->frames[
+animations/animation_using.c:                (int) curr->durations[ANIM_CURR_FRAME]
+animations/animation_using.c:            set_img_rect(ent->entity_value.pnj->sheet, curr->frames[
+animations/animation_using.c:                (int) curr->durations[ANIM_CURR_FRAME]
+animations/animation_using.c:            set_img_rect(ent->entity_value.enemy->sheet, curr->frames[
+animations/animation_using.c:                (int) curr->durations[ANIM_CURR_FRAME]
+animations/animation_using.c:    switch (ent->type) {
+animations/animation_using.c:            set_anim_player(ent->entity_value.player, tag_anim, switch_after);
+animations/animation_using.c:            set_anim_pnj(ent->entity_value.pnj, tag_anim, switch_after);
+animations/animation_using.c:            set_anim_enemy(ent->entity_value.enemy, tag_anim, switch_after);
+animations/animation_using.c:    switch (ent->type) {
+animations/animation_using.c:            get_anim_player(ent->entity_value.player, &curr);
+animations/animation_using.c:            get_anim_pnj(ent->entity_value.pnj, &curr);
+animations/animation_using.c:            get_anim_enemy(ent->entity_value.enemy, &curr);
+animations/animation_using.c:    if (curr->states[ANIM_FINISH] && curr->switch_to != NULL) {
+animations/animation_using.c:        change_animation(ent, curr->switch_to, NULL);
+animations/animation_using.c:            play_animation(tmp->element, clock);
+animations/animation_using.c:            tmp = tmp->next;
+animations/animation_settings.c:    anim->frames = frames;
+animations/animation_settings.c:    anim->nb_frames = nb_frames;
+animations/animation_settings.c:    anim->durations[ANIM_CURR_FRAME] = 0;
+animations/animation_settings.c:    anim->durations[ANIM_CURR_TIME] = 0;
+animations/animation_settings.c:    anim->durations[ANIM_TIME_ANIM] = total_time;
+animations/animation_settings.c:    anim->states[ANIM_LOOP] = loop;
+animations/animation_settings.c:    anim->states[ANIM_FINISH] = false;
+animations/animation_settings.c:    anim->durations[ANIM_CURR_FRAME] = 0;
+animations/animation_settings.c:    anim->durations[ANIM_CURR_TIME] = 0;
+animations/animation_settings.c:    anim->states[ANIM_FINISH] = false;
+animations/animation_settings.c:    if (anim->states[ANIM_FINISH])
+animations/animation_settings.c:    anim->durations[ANIM_CURR_TIME] += sfTime_asSeconds(time_past);
+animations/animation_settings.c:    anim->durations[ANIM_CURR_FRAME] = (anim->durations[ANIM_CURR_TIME] /
+animations/animation_settings.c:    anim->durations[ANIM_TIME_ANIM]) * (float) anim->nb_frames;
+animations/animation_settings.c:    if (anim->durations[ANIM_CURR_FRAME] >= (float) anim->nb_frames)
+animations/animation_settings.c:        anim->durations[ANIM_CURR_FRAME] -= (
+animations/animation_settings.c:        anim->durations[ANIM_CURR_FRAME] - (float) anim->nb_frames) + 1;
+animations/animation_settings.c:    if (anim->durations[ANIM_CURR_TIME] >= anim->durations[ANIM_TIME_ANIM]) {
+animations/animation_settings.c:        if (anim->states[ANIM_LOOP])
+animations/animation_settings.c:            anim->durations[ANIM_CURR_TIME] = anim->durations[ANIM_TIME_ANIM];
+animations/animation_settings.c:            anim->states[ANIM_FINISH] = true;
+animations/animation_settings.c:    anim->switch_to = new_switch;
+menus/btn_callback_settings.c:    this->callback = set_music;
+menus/btn_callback_settings.c:    this->arg = 0;
+menus/btn_callback_settings.c:    this->action = SET_MUSIC_BTN;
+menus/btn_callback_settings.c:    this->callback = set_sfx;
+menus/btn_callback_settings.c:    this->arg = 0;
+menus/btn_callback_settings.c:    this->action = SET_SFX_BTN;
+menus/btn_callback_settings.c:    this->callback = change_scene;
+menus/btn_callback_settings.c:    this->arg = 0;
+menus/btn_callback_settings.c:    this->action = BACK_BTN;
+menus/btn_callback.c:    this->callback = change_scene;
+menus/btn_callback.c:    this->arg = json_object_get_int(obj, "new_scene");
+menus/btn_callback.c:    this->action = NEW_SCENE_BTN;
+menus/btn_callback.c:    this->callback = get_scene(json_object_get_int(obj, "new_scene"));
+menus/btn_callback.c:    this->arg = 0;
+menus/btn_callback.c:    this->action = INTERNAL_BTN;
+menus/btn_callback.c:    this->callback = attack_player_callback;
+menus/btn_callback.c:    this->arg = 0;
+menus/btn_callback.c:    this->action = ATTACK_BTN;
+menus/btn_callback.c:    this->callback = NULL;
+menus/btn_callback.c:    this->arg = 0;
+menus/btn_callback.c:    this->action = ITEMS_BTN;
+menus/btn_callback.c:    this->callback = run_away;
+menus/btn_callback.c:    this->arg = 0;
+menus/btn_callback.c:    this->action = RUN_AWAY_BTN;
+menus/button.c:        this->states[0] = NULL;
+menus/button.c:        this->states[1] = NULL;
+menus/button.c:    this->states[0] =
+menus/button.c:    create_image(json_object_get_str(info, "idle"), &this->rect);
+menus/button.c:    this->states[1] =
+menus/button.c:    create_image(json_object_get_str(info, "hover"), &this->rect);
+menus/button.c:    if (this->states[0])
+menus/button.c:        set_img_position(this->states[0], this->pos);
+menus/button.c:    if (this->states[1])
+menus/button.c:        set_img_position(this->states[1], this->pos);
+menus/button.c:    this->callback = NULL;
+menus/button.c:    this->arg = 0;
+menus/button.c:    btn->hover = false;
+menus/button.c:    btn->name = create_label(MAIN_FONT, 30, name, sfWhite);
+menus/button.c:    btn->pos = get_position_from_object(obj, "pos");
+menus/button.c:    btn->rect = get_int_rect_from_object(obj, "rect");
+menus/button.c:    btn->focus_mask = (sfIntRect) {
+menus/button.c:    (int) btn->pos.x, (int) btn->pos.y, btn->rect.width, btn->rect.height};
+menus/button.c:    set_pos_label(btn->name, (sfVector2f) {
+menus/button.c:        btn->pos.x + btn->rect.width / 2 - m_strlen(name) * 15 / 2,
+menus/button.c:        btn->pos.y + btn->rect.height / 2 - 25});
+menus/button.c:    if (btn->hover)
+menus/button.c:        draw_img(btn->states[1], window);
+menus/button.c:        draw_img(btn->states[0], window);
+menus/button.c:    draw_lbl(btn->name, window);
+menus/button.c:    label_destroy(btn->name);
+menus/button.c:    if (btn->states[0])
+menus/button.c:        image_destroy(btn->states[0]);
+menus/button.c:    if (btn->states[1])
+menus/button.c:        image_destroy(btn->states[1]);
+menus/menus.c:        if (sfIntRect_contains(&menu[i]->focus_mask, pos.x, pos.y)) {
+menus/menus.c:            menu[i]->hover = true;
+menus/menus.c:        menu[i]->hover = false;
+particle/particle_effect.c:    part->img = create_image(filepath, NULL);
+particle/particle_effect.c:        set_random_pos(center, part[count]->img, size);
+particle/particle_effect.c:        draw_img(part[count]->img, window);
+particle/particle_effect.c:        set_img_position(part[count]->img, pos);
+particle/particle_effect.c:        set_random_pos_particle(part[count]->img, RAND_PART_POS);
+particle/particle_effect.c:        draw_img(part[count]->img, window);
+particle/particle_op.c:    if (ent->type == PLAYER_ENT)
+particle/particle_op.c:        return (ent->entity_value.player);
+particle/particle_op.c:            player = f_player(tmp->element);
+particle/particle_op.c:            tmp = tmp->next;
+particle/particle_op.c:        rect_center.x -= (rand() % size / 2);
+particle/particle_op.c:        rect_center.y -= (rand() % size / 2);
+particle/particle_op.c:        new_pos.y = get_img_pos(img).y - RAND_PART_POS_Y;
+particle/particle_op.c:        image_destroy(part->img);
+res/txt/label.c:    lbl->txt = sfText_create();
+res/txt/label.c:    lbl->mall = m_strdup(txt);
+res/txt/label.c:    lbl->font = sfFont_createFromFile(fontpath);
+res/txt/label.c:    if (!lbl->font)
+res/txt/label.c:    sfText_setString(lbl->txt, lbl->mall);
+res/txt/label.c:    sfText_setFont(lbl->txt, lbl->font);
+res/txt/label.c:    sfText_setColor(lbl->txt, color);
+res/txt/label.c:    sfText_setCharacterSize(lbl->txt, size);
+res/txt/label.c:    sfRenderWindow_drawText(window, lbl->txt, NULL);
+res/txt/label.c:    free(lbl->mall);
+res/txt/label.c:    sfText_destroy(lbl->txt);
+res/txt/label.c:    sfFont_destroy(lbl->font);
+res/txt/label_op.c:    free(label->mall);
+res/txt/label_op.c:    label->mall = m_strdup(new_text);
+res/txt/label_op.c:    sfText_setString(label->txt, label->mall);
+res/txt/label_op.c:    sfText_setPosition(lbl->txt, pos);
+res/txt/label_op.c:    sfText_setColor(lbl->txt, color);
+res/img/image_op.c:    sfSprite_move(img->sprite, off);
+res/img/image_op.c:    sfSprite_setTextureRect(img->sprite, new_rect);
+res/img/image_op.c:    return sfSprite_getPosition(img->sprite);
+res/img/image_op.c:        sfSprite_setPosition(img->sprite, new_pos);
+res/img/image.c:    n_img->sprite = sprite;
+res/img/image.c:    n_img->txt = txt;
+res/img/image.c:        sfRenderWindow_drawSprite(window, img->sprite, NULL);
+res/img/image.c:    sfSprite_destroy(img->sprite);
+res/img/image.c:    sfTexture_destroy(img->txt);
+res/sound/sound_settings.c:    sys->settings.sfx_allowed = !sys->settings.sfx_allowed;
+res/sound/sound_settings.c:    if (!sys->settings.sfx_allowed) {
+res/sound/sound_settings.c:        reset_all_sound(sys->sounds);
+res/sound/sound_settings.c:    sys->settings.music_allowed = !sys->settings.music_allowed;
+res/sound/sound_settings.c:    if (!sys->settings.music_allowed) {
+res/sound/sound_settings.c:        reset_all_sound(sys->sounds);
+res/sound/sound_op.c:    sfSound_play(snd->sound);
+res/sound/sound_op.c:    sfSound_stop(snd->sound);
+res/sound/sound_op.c:    sfSound_pause(snd->sound);
+res/sound/sound_op.c:    sfSound_setVolume(snd->sound, volume);
+res/sound/sound_handle.c:            play_sound(list_get_from_tag(sys->sounds, flag[type_sound]));
+res/sound/sound_handle.c:            stop_sound(list_get_from_tag(sys->sounds, flag[type_sound]));
+res/sound/sound_handle.c:            pause_sound(list_get_from_tag(sys->sounds, flag[type_sound]));
+res/sound/sound_handle.c:            reset_all_sound(sys->sounds);
+res/sound/sound_handle.c:            set_volume_sound(sys->sounds, volume);
+res/sound/sound.c:    snd->buffer = sfSoundBuffer_createFromFile(filepath);
+res/sound/sound.c:    snd->sound = sfSound_create();
+res/sound/sound.c:    snd->is_sfx = sfx;
+res/sound/sound.c:    sfSound_setBuffer(snd->sound, snd->buffer);
+res/sound/sound.c:    sfSound_setLoop(snd->sound, loop);
+res/sound/sound.c:    sfSound_setVolume(snd->sound, volume);
+res/sound/sound.c:    sfSound_destroy(snd->sound);
+res/sound/sound.c:    sfSoundBuffer_destroy(snd->buffer);
+res/sound/sound.c:        stop_sound((snd_t *)sound->element);
+res/sound/sound.c:        sound = sound->next;
+res/sound/sound.c:        volume_sound((snd_t *)sound->element, volume);
+res/sound/sound.c:        sound = sound->next;
+keyboard/interact_keyboard.c:    if (sys->paused)
+keyboard/interact_keyboard.c:    if (!sys->map->interact)
+keyboard/interact_keyboard.c:    sys->map->interact(
+keyboard/interact_keyboard.c:            sys, sys->map->to_interact_with,
+keyboard/interact_keyboard.c:            sys->map->selected_trigger
+keyboard/interact_keyboard.c:    if (sys->paused)
+keyboard/move_keyboard.c:    move(GET_PLAYER_ENT(sys->entities), (sfVector2f) {0, -1});
+keyboard/move_keyboard.c:    change_animation(GET_PLAYER_ENT(sys->entities), "up", "idle_up");
+keyboard/move_keyboard.c:    move(GET_PLAYER_ENT(sys->entities), (sfVector2f) {-1, 0});
+keyboard/move_keyboard.c:    change_animation(GET_PLAYER_ENT(sys->entities), "left", "idle_left");
+keyboard/move_keyboard.c:    move(GET_PLAYER_ENT(sys->entities), (sfVector2f) {1, 0});
+keyboard/move_keyboard.c:    change_animation(GET_PLAYER_ENT(sys->entities), "right", "idle_right");
+keyboard/move_keyboard.c:    move(GET_PLAYER_ENT(sys->entities), (sfVector2f) {0, 1});
+keyboard/move_keyboard.c:    change_animation(GET_PLAYER_ENT(sys->entities), "down", "idle_down");
+json/json_parser/parse_bool.c:    if (tokenizer->token_type != J_BOOL_TOKEN)
+json/json_parser/parse_bool.c:    if (tokenizer->buffer->str[tokenizer->data_position] == 't')
+json/json_parser/parse_bool.c:        result->value.boolean = true;
+json/json_parser/parse_bool.c:        result->value.boolean = false;
+json/json_parser/parse_number.c:    if (tokenizer->token_type != J_NUMBER_TOKEN)
+json/json_parser/parse_number.c:    result->value.number = m_getnbr(tokenizer->buffer->str +
+json/json_parser/parse_number.c:    tokenizer->data_position);
+json/json_parser/parse_null.c:    if (tokenizer->token_type != J_NULL_TOKEN)
+json/json_parser/parse_null.c:    result->value.nothing = NULL;
+json/json_parser/json_parse.c:    if (tokenizer.buffer->str[tokenizer.data_position] != '{'
+json/json_parser/json_parse.c:    && tokenizer.buffer->str[tokenizer.data_position] != '[')
+json/json_parser/parse_array.c:    result->value.array.length = list_get_length(ele);
+json/json_parser/parse_array.c:    result->value.array.type = type_data;
+json/json_parser/parse_array.c:    result->value.array.arr = malloc(sizeof(json_value_t) *
+json/json_parser/parse_array.c:    (result->value.array.length + 1));
+json/json_parser/parse_array.c:    CHECK_MALLOC(result->value.array.arr);
+json/json_parser/parse_array.c:    for (int i = 0; i < result->value.array.length; i++) {
+json/json_parser/parse_array.c:        result->value.array.arr[i] = ele->element;
+json/json_parser/parse_array.c:        ele = ele->next;
+json/json_parser/parse_array.c:    result->value.array.arr[result->value.array.length] = NULL;
+json/json_parser/parse_array.c:    while (tokenizer->token_type != J_SQUARE_BRACKET_R) {
+json/json_parser/parse_array.c:            *type = element->value_type;
+json/json_parser/parse_array.c:        if (tokenizer->token_type == J_COMMA)
+json/json_parser/parse_array.c:    if (tokenizer->token_type != J_SQUARE_BRACKET_L)
+json/json_parser/parse_object.c:    while (tokenizer->token_type != J_CURLY_BRACKET_R) {
+json/json_parser/parse_object.c:        list_push(&result->value.obj, tmp, key);
+json/json_parser/parse_object.c:        if (tokenizer->token_type == J_COMMA)
+json/json_parser/parse_object.c:    if (tokenizer->token_type != J_CURLY_BRACKET_L)
+json/json_parser/parse_string.c:    if (tokenizer->token_type != J_STRING_TOKEN)
+json/json_parser/parse_string.c:    for (i = 1; i <= tokenizer->token_length; i++)
+json/json_parser/parse_string.c:        key[i - 1] = tokenizer->buffer->str[i + tokenizer->data_position];
+json/json_parser/parse_string.c:    if (tokenizer->token_type != J_STRING_TOKEN)
+json/json_parser/parse_string.c:    for (i = 1; i <= tokenizer->token_length; i++)
+json/json_parser/parse_string.c:        result->value.string[i - 1] =
+json/json_parser/parse_string.c:        tokenizer->buffer->str[i + tokenizer->data_position];
+json/json_value/json_get_from_value_part_2.c:    return v->value.nothing;
+json/json_value/json_get_from_value_part_2.c:    if (v->value_type != J_BOOL)
+json/json_value/json_get_from_value_part_2.c:    return v->value.boolean;
+json/json_value/json_get_from_value_part_2.c:    if (v->value_type != J_STR)
+json/json_value/json_get_from_value_part_2.c:    return v->value.string;
+json/json_value/get_json_from_file.c:        if (getline(&buffer, &n, json_file) == -1)
+json/json_value/json_get_from_array/json_array_get.c:    if (index < 0 || index >= array->length)
+json/json_value/json_get_from_array/json_array_get.c:    return get_int_value(array->arr[index]);
+json/json_value/json_get_from_array/json_array_get.c:    if (index < 0 || index >= array->length)
+json/json_value/json_get_from_array/json_array_get.c:    return get_string_value(array->arr[index]);
+json/json_value/json_get_from_array/json_array_get.c:    if (index < 0 || index >= array->length)
+json/json_value/json_get_from_array/json_array_get.c:    return get_bool_value(array->arr[index]);
+json/json_value/json_get_from_array/json_array_get.c:    if (index < 0 || index >= array->length)
+json/json_value/json_get_from_array/json_array_get.c:    return get_json_object(array->arr[index]);
+json/json_value/json_get_from_object/json_object_get_part_2.c:    if (!tmp || tmp->value_type != J_OBJ)
+json/json_value/json_get_from_object/json_object_get_part_2.c:    return tmp->value.obj;
+json/json_value/json_get_from_object/json_object_get_part_2.c:    if (!tmp || tmp->value_type != J_NULL)
+json/json_value/json_get_from_object/json_object_get_part_2.c:    return tmp->value.nothing;
+json/json_value/json_get_from_object/json_object_get_part_2.c:        return (json_array_t) {NULL, -1, 84};
+json/json_value/json_get_from_object/json_object_get_part_2.c:    return tmp->value.array;
+json/json_value/json_get_from_object/json_object_get.c:    if (!tmp || tmp->value_type != J_NUM)
+json/json_value/json_get_from_object/json_object_get.c:    return tmp->value.number;
+json/json_value/json_get_from_object/json_object_get.c:    if (!tmp || tmp->value_type != J_BOOL)
+json/json_value/json_get_from_object/json_object_get.c:    return tmp->value.boolean;
+json/json_value/json_get_from_object/json_object_get.c:    if (!tmp || tmp->value_type != J_STR)
+json/json_value/json_get_from_object/json_object_get.c:    return tmp->value.string;
+json/json_value/destroy_json_value.c:    if (value->value_type == J_OBJ)
+json/json_value/destroy_json_value.c:        list_destroy(&value->value.obj, destroy_json_value);
+json/json_value/destroy_json_value.c:    if (value->value_type == J_ARRAY) {
+json/json_value/destroy_json_value.c:        for (int i = 0; i < value->value.array.length; i++)
+json/json_value/destroy_json_value.c:            destroy_json_value(value->value.array.arr[i]);
+json/json_value/destroy_json_value.c:        free(value->value.array.arr);
+json/json_value/json_get_from_value.c:    if (v->value_type != J_OBJ)
+json/json_value/json_get_from_value.c:    obj = v->value.obj;
+json/json_value/json_get_from_value.c:    return v->value.array;
+json/json_value/json_get_from_value.c:    if (v->value_type != J_NUM)
+json/json_value/json_get_from_value.c:    return v->value.number;
+json/json_value/create_json_value.c:    value->value_type = type;
+json/json_value/create_json_value.c:    value->value.number = 0;
+json/json_value/create_json_value.c:    value->value.obj = NULL;
+json/json_value/create_json_value.c:    value->value.boolean = false;
+json/json_value/create_json_value.c:    value->value.nothing = NULL;
+json/json_value/create_json_value.c:    m_memset(value->value.string, '\0', 255);
+json/json_tokenizer/next_token.c:    switch (tokenizer->token_type) {
+json/json_tokenizer/next_token.c:            tokenizer->data_position += tokenizer->token_length + 2;
+json/json_tokenizer/next_token.c:            tokenizer->data_position++;
+json/json_tokenizer/next_token.c:            tokenizer->data_position += 4;
+json/json_tokenizer/next_token.c:            tokenizer->data_position += tokenizer->token_length;
+json/json_tokenizer/has_more_tokens.c:    return tokenizer->data_position + tokenizer->token_length <
+json/json_tokenizer/has_more_tokens.c:    tokenizer->buffer->length;
+json/json_tokenizer/skip_white_space.c:        switch (tokenizer->buffer->str[tokenizer->data_position]) {
+json/json_tokenizer/skip_white_space.c:                tokenizer->data_position++;
+json/json_tokenizer/parse_number_token.c:    unsigned int tmp_pos = tokenizer->data_position;
+json/json_tokenizer/parse_number_token.c:    for (; is_num(tokenizer->buffer->str[tmp_pos]); tmp_pos++);
+json/json_tokenizer/parse_number_token.c:    tokenizer->token_length = tmp_pos - tokenizer->data_position;
+json/json_tokenizer/eat.c:    if (tokenizer->buffer->str[tokenizer->data_position] != ',')
+json/json_tokenizer/eat.c:    tokenizer->data_position++;
+json/json_tokenizer/eat.c:    if (tokenizer->buffer->str[tokenizer->data_position] != ':')
+json/json_tokenizer/eat.c:    tokenizer->data_position++;
+json/json_tokenizer/parse_token.c:        tokenizer->token_length = 1;
+json/json_tokenizer/parse_token.c:    tokenizer->token_type = 0;
+json/json_tokenizer/parse_token.c:    tokenizer->token_length = 0;
+json/json_tokenizer/parse_token.c:        if (tokenizer->buffer->str[tokenizer->data_position] == TOKENS[i]) {
+json/json_tokenizer/parse_token.c:    tokenizer->token_type =
+json/json_tokenizer/parse_token.c:    get_token_type(tokenizer->buffer->str[tokenizer->data_position]);
+json/json_tokenizer/parse_valid_token.c:    if (m_strncmp(tokenizer->buffer->str + tokenizer->data_position,
+json/json_tokenizer/parse_valid_token.c:    tokenizer->token_length = m_strlen(test);
+json/json_tokenizer/parse_string_token.c:    unsigned int tmp_pos = tokenizer->data_position;
+json/json_tokenizer/parse_string_token.c:        if (tokenizer->buffer->str[tmp_pos] ==  '"')
+json/json_tokenizer/parse_string_token.c:            end_of_string = (tokenizer->buffer->str[tmp_pos - 1] != '\\')
+json/json_tokenizer/parse_string_token.c:    tokenizer->token_length = tmp_pos - tokenizer->data_position - 1;
+scenes/settings_scene.c:    while (sfRenderWindow_pollEvent(sys->window, &event)) {
+scenes/settings_scene.c:            close_window(sys->window);
+scenes/settings_scene.c:    sfRenderWindow_drawRectangleShape(sys->window, shader, NULL);
+scenes/settings_scene.c:    disp_menu(settings_menu, sys->window);
+scenes/settings_scene.c:    display_window(sys->window);
+scenes/settings_scene.c:    while (is_open_window(sys->window) && sys->actual_scene == SETTINGS_SCENE) {
+scenes/settings_scene.c:        sfMouse_getPositionRenderWindow(sys->window));
+scenes/settings_scene.c:        sfClock_restart(sys->clock);
+scenes/settings_scene.c:    sfClock_restart(sys->clock);
+scenes/world_scene.c:    while (sfRenderWindow_pollEvent(sys->window, &event)) {
+scenes/world_scene.c:            close_window(sys->window);
+scenes/world_scene.c:    clear_window(sys->window, sfBlack);
+scenes/world_scene.c:    draw_map(sys->map, sys->window);
+scenes/world_scene.c:    draw_entities(sys->entities, sys->window);
+scenes/world_scene.c:    for (i = 0; sys->map->triggers[i]; i++)
+scenes/world_scene.c:        draw_trigger(sys->map->triggers[i], sys->window);
+scenes/world_scene.c:            find_player_for_set_particle(sys->entities)->sheet
+scenes/world_scene.c:        sys->window
+scenes/world_scene.c:    display_window(sys->window);
+scenes/world_scene.c:    move_pnjs(sys->entities[PNJ_BRANCH], sys->clock);
+scenes/world_scene.c:    update_entities(sys->map, sys->entities, sys);
+scenes/world_scene.c:    update_camera(sys->camera, GET_PLAYER(sys->entities));
+scenes/world_scene.c:    apply_camera_map(sys->camera, sys->map);
+scenes/world_scene.c:    animate_entities(sys->entities, sys->clock);
+scenes/world_scene.c:    apply_cam_on_entities(sys->camera, sys->entities);
+scenes/world_scene.c:        sys->entities[PNJ_BRANCH], sys->map,
+scenes/world_scene.c:        GET_PLAYER(sys->entities)
+scenes/world_scene.c:    check_validation_quests(GET_PLAYER(sys->entities), sys->map->loc);
+scenes/world_scene.c:    check_end(sys, ((player_t *) GET_PLAYER(sys->entities))->quests);
+scenes/world_scene.c:    while (is_open_window(sys->window) && sys->actual_scene == WORLD_SCENE) {
+scenes/world_scene.c:        if (sys->actual_scene == EXIT_SCENE)
+scenes/world_scene.c:        sfClock_restart(sys->clock);
+scenes/how_to_play_scene.c:    while (sfRenderWindow_pollEvent(sys->window, &event)) {
+scenes/how_to_play_scene.c:            close_window(sys->window);
+scenes/how_to_play_scene.c:    set_img_position(logo, (sfVector2f) {0, -90});
+scenes/how_to_play_scene.c:    while (is_open_window(sys->window) && sys->actual_scene == HELP_SCENE) {
+scenes/how_to_play_scene.c:        sfMouse_getPositionRenderWindow(sys->window));
+scenes/how_to_play_scene.c:        if (sys->actual_scene == EXIT_SCENE)
+scenes/how_to_play_scene.c:        sfClock_restart(sys->clock);
+scenes/item_scene.c:    while (sfRenderWindow_pollEvent(sys->window, &event)) {
+scenes/item_scene.c:            close_window(sys->window);
+scenes/item_scene.c:    m_strcat_dup("New item : ", new_item->name), sfWhite);
+scenes/item_scene.c:    clear_window(sys->window, sfBlack);
+scenes/item_scene.c:    draw_map(sys->map, sys->window);
+scenes/item_scene.c:    draw_entities(sys->entities, sys->window);
+scenes/item_scene.c:    sfRenderWindow_drawRectangleShape(sys->window, shader, NULL);
+scenes/item_scene.c:        draw_lbl(labels[i], sys->window);
+scenes/item_scene.c:    *time_ += sfTime_asSeconds(sfClock_getElapsedTime(sys->clock));
+scenes/item_scene.c:        particle_effect(800, FREQUENCY(200), PATH_PART_BUBBLE, sys->window);
+scenes/item_scene.c:        particle_effect(800, FREQUENCY(250), PATH_PART_FIRE, sys->window);
+scenes/item_scene.c:    display_window(sys->window);
+scenes/item_scene.c:    while (is_open_window(sys->window) && sys->actual_scene == ITEM_SCENE) {
+scenes/item_scene.c:        sfClock_restart(sys->clock);
+scenes/item_scene.c:    sfClock_restart(sys->clock);
+scenes/fight_scene/create_destroy_fight.c:    ((enemy_t *)GET_ENEMY(sys->entities))->name, sfBlack);
+scenes/fight_scene/create_destroy_fight.c:    ((player_t *) GET_PLAYER(sys->entities))->name, sfBlack);
+scenes/fight_scene/create_destroy_fight.c:    GET_PLAYER(sys->entities))->health.current_health), sfBlack);
+scenes/fight_scene/create_destroy_fight.c:    GET_ENEMY(sys->entities))->health.current_health), sfBlack);
+scenes/fight_scene/create_destroy_fight.c:    set_img_position(((player_t *) GET_PLAYER(sys->entities))->sheet,
+scenes/fight_scene/fight_scene.c:    while (sfRenderWindow_pollEvent(sys->window, &event)) {
+scenes/fight_scene/fight_scene.c:            close_window(sys->window);
+scenes/fight_scene/fight_scene.c:    animate_entities(sys->entities, sys->clock);
+scenes/fight_scene/fight_scene.c:    clear_window(sys->window, sfRed);
+scenes/fight_scene/fight_scene.c:        draw_img(imgs[i], sys->window);
+scenes/fight_scene/fight_scene.c:    draw_img(imgs[HEART] , sys->window);
+scenes/fight_scene/fight_scene.c:    disp_menu(btn, sys->window);
+scenes/fight_scene/fight_scene.c:    draw_entities(sys->entities, sys->window);
+scenes/fight_scene/fight_scene.c:        draw_lbl( labels[i], sys->window);
+scenes/fight_scene/fight_scene.c:    display_window(sys->window);
+scenes/fight_scene/fight_scene.c:    change_animation(GET_PLAYER_ENT(sys->entities), "idle_left",
+scenes/fight_scene/fight_scene.c:    while (is_open_window(sys->window)
+scenes/fight_scene/fight_scene.c:    && sys->actual_scene == PLAYER_ATTACK_SCENE) {
+scenes/fight_scene/fight_scene.c:        check_state_buttons(btn, sfMouse_getPositionRenderWindow(sys->window));
+scenes/fight_scene/fight_scene.c:        sfClock_restart(sys->clock);
+scenes/fight_scene/run_fight.c:        up_xp(GET_PLAYER(sys->entities), BOUNTY_XP);
+scenes/fight_scene/run_fight.c:    if (sys->actual_scene == EXIT_SCENE)
+scenes/fight_scene/run_fight.c:    list_destroy(&sys->entities[ENEMY_BRANCH], destroy_entity);
+scenes/fight_scene/run_fight.c:    img_t *background =  (sys->map->loc == FOREST)
+scenes/fight_scene/run_fight.c:    sys->actual_scene == FIGHT_SCENE)
+scenes/fight_scene/run_fight.c:        if (sys->actual_scene != FIGHT_SCENE) {
+scenes/fight_scene/run_fight.c:        *death_enemy = check_death_entity(GET_ENEMY_ENT(sys->entities));
+scenes/fight_scene/run_fight.c:        change_animation(GET_ENEMY_ENT(sys->entities), "idle", NULL);
+scenes/fight_scene/run_fight.c:        *death_player = check_death_entity(GET_PLAYER_ENT(sys->entities));
+scenes/fight_scene/fight_btns_callback.c:    while (sfRenderWindow_pollEvent(sys->window, &event)) {
+scenes/fight_scene/fight_btns_callback.c:            close_window(sys->window);
+scenes/fight_scene/fight_btns_callback.c:    while (is_open_window(sys->window)) {
+scenes/fight_scene/fight_btns_callback.c:            particle_effect(800, FREQUENCY(200), PATH_PART_FIRE, sys->window);
+scenes/fight_scene/fight_btns_callback.c:        display_window(sys->window);
+scenes/fight_scene/fight_btns_callback.c:        time += sfTime_asSeconds(sfClock_getElapsedTime(sys->clock));
+scenes/fight_scene/fight_btns_callback.c:        sfClock_restart(sys->clock);
+scenes/fight_scene/fight_btns_callback.c:            GET_PLAYER_ENT(sys->entities),
+scenes/fight_scene/fight_btns_callback.c:            GET_ENEMY_ENT(sys->entities)
+scenes/fight_scene/fight_btns_callback.c:    if (sys->actual_scene != EXIT_SCENE)
+scenes/fight_scene/attack_enemy_scene.c:    while (sfRenderWindow_pollEvent(sys->window, &event)) {
+scenes/fight_scene/attack_enemy_scene.c:            close_window(sys->window);
+scenes/fight_scene/attack_enemy_scene.c:    clear_window(sys->window, sfBlack);
+scenes/fight_scene/attack_enemy_scene.c:    draw_img(back, sys->window);
+scenes/fight_scene/attack_enemy_scene.c:    draw_entities(sys->entities, sys->window);
+scenes/fight_scene/attack_enemy_scene.c:    display_window(sys->window);
+scenes/fight_scene/attack_enemy_scene.c:    entity_t *enemy = GET_ENEMY_ENT(sys->entities);
+scenes/fight_scene/attack_enemy_scene.c:    entity_t *player = GET_PLAYER_ENT(sys->entities);
+scenes/fight_scene/attack_enemy_scene.c:    while (is_open_window(sys->window) &&
+scenes/fight_scene/attack_enemy_scene.c:    sys->actual_scene == ENEMY_ATTACK_SCENE) {
+scenes/fight_scene/attack_enemy_scene.c:        animate_entities(sys->entities, sys->clock);
+scenes/fight_scene/attack_enemy_scene.c:        sfClock_restart(sys->clock);
+scenes/fight_scene/attack_enemy_scene.c:        if (anim->states[ANIM_FINISH])
+scenes/end_scene.c:    while (sfRenderWindow_pollEvent(sys->window, &event)) {
+scenes/end_scene.c:            close_window(sys->window);
+scenes/end_scene.c:    clear_window(sys->window, sfBlack);
+scenes/end_scene.c:    draw_img(background, sys->window);
+scenes/end_scene.c:    disp_menu(menu, sys->window);
+scenes/end_scene.c:    display_window(sys->window);
+scenes/end_scene.c:        if (quests[i]->state != 2)
+scenes/end_scene.c:    while (is_open_window(sys->window) && sys->actual_scene == END_SCENE) {
+scenes/end_scene.c:        sfMouse_getPositionRenderWindow(sys->window));
+scenes/end_scene.c:        if (sys->actual_scene == EXIT_SCENE)
+scenes/end_scene.c:        sfClock_restart(sys->clock);
+scenes/credits_scene.c:    while (sfRenderWindow_pollEvent(sys->window, &event)) {
+scenes/credits_scene.c:            close_window(sys->window);
+scenes/credits_scene.c:    set_img_position(logo, (sfVector2f) {0, -90});
+scenes/credits_scene.c:    while (is_open_window(sys->window) && sys->actual_scene == CREDITS_SCENE) {
+scenes/credits_scene.c:        sfMouse_getPositionRenderWindow(sys->window));
+scenes/credits_scene.c:        if (sys->actual_scene == EXIT_SCENE)
+scenes/credits_scene.c:        sfClock_restart(sys->clock);
+scenes/fade_scene.c:    while (sfRenderWindow_pollEvent(sys->window, &event)) {
+scenes/fade_scene.c:    clear_window(sys->window, sfBlack);
+scenes/fade_scene.c:    draw_map(sys->map, sys->window);
+scenes/fade_scene.c:    draw_entities(sys->entities, sys->window);
+scenes/fade_scene.c:    sfRenderWindow_drawRectangleShape(sys->window, shader, NULL);
+scenes/fade_scene.c:    display_window(sys->window);
+scenes/fade_scene.c:    update_camera(sys->camera, GET_PLAYER(sys->entities));
+scenes/fade_scene.c:    apply_camera_map(sys->camera, sys->map);
+scenes/fade_scene.c:    apply_cam_on_entities(sys->camera, sys->entities);
+scenes/fade_scene.c:    while (is_open_window(sys->window) && sys->actual_scene == FADE_SCENE) {
+scenes/fade_scene.c:        update_fade_in(shader, sys->clock, &time);
+scenes/fade_scene.c:        sfClock_restart(sys->clock);
+scenes/fade_scene.c:    while (is_open_window(sys->window) && sys->actual_scene == FADE_SCENE) {
+scenes/fade_scene.c:        update_fade_out(shader, sys->clock, &time);
+scenes/fade_scene.c:        sfClock_restart(sys->clock);
+scenes/intro_scenes/intro_forest_scene.c:    while (sfRenderWindow_pollEvent(sys->window, &event)) {
+scenes/intro_scenes/intro_forest_scene.c:            close_window(sys->window);
+scenes/intro_scenes/intro_forest_scene.c:        W_SCREEN - m_strlen(ANY_KEY) * 12.25,
+scenes/intro_scenes/intro_forest_scene.c:        H_SCREEN - 30
+scenes/intro_scenes/intro_forest_scene.c:    while (is_open_window(sys->window) &&
+scenes/intro_scenes/intro_forest_scene.c:    sys->actual_scene == INTRO_FOREST_SCENE) {
+scenes/intro_scenes/intro_forest_scene.c:        clear_window(sys->window, sfBlack);
+scenes/intro_scenes/intro_forest_scene.c:        draw_img(background, sys->window);
+scenes/intro_scenes/intro_forest_scene.c:        draw_lbl(key_precision, sys->window);
+scenes/intro_scenes/intro_forest_scene.c:        display_window(sys->window);
+scenes/intro_scenes/intro_forest_scene.c:        sfClock_restart(sys->clock);
+scenes/intro_scenes/intro_cave_scene.c:    while (sfRenderWindow_pollEvent(sys->window, &event)) {
+scenes/intro_scenes/intro_cave_scene.c:            close_window(sys->window);
+scenes/intro_scenes/intro_cave_scene.c:        W_SCREEN - m_strlen(ANY_KEY) * 12.25,
+scenes/intro_scenes/intro_cave_scene.c:        H_SCREEN - 30
+scenes/intro_scenes/intro_cave_scene.c:    while (is_open_window(sys->window) &&
+scenes/intro_scenes/intro_cave_scene.c:    sys->actual_scene == INTRO_CAVE_SCENE) {
+scenes/intro_scenes/intro_cave_scene.c:        clear_window(sys->window, sfBlack);
+scenes/intro_scenes/intro_cave_scene.c:        draw_img(background, sys->window);
+scenes/intro_scenes/intro_cave_scene.c:        draw_lbl(key_precision, sys->window);
+scenes/intro_scenes/intro_cave_scene.c:        display_window(sys->window);
+scenes/intro_scenes/intro_cave_scene.c:        sfClock_restart(sys->clock);
+scenes/lose.c:    while (sfRenderWindow_pollEvent(sys->window, &event)) {
+scenes/lose.c:            close_window(sys->window);
+scenes/lose.c:    clear_window(sys->window, sfBlack);
+scenes/lose.c:    draw_img(background, sys->window);
+scenes/lose.c:    draw_img(gameover_text, sys->window);
+scenes/lose.c:    disp_menu(menu, sys->window);
+scenes/lose.c:    display_window(sys->window);
+scenes/lose.c:    while (is_open_window(sys->window) && sys->actual_scene == LOSE_SCENE) {
+scenes/lose.c:        sfMouse_getPositionRenderWindow(sys->window));
+scenes/lose.c:        if (sys->actual_scene == EXIT_SCENE)
+scenes/lose.c:        sfClock_restart(sys->clock);
+scenes/menu_scene.c:    sfVector2i pos_click = sfMouse_getPositionRenderWindow(sys->window);
+scenes/menu_scene.c:                &menu[i]->focus_mask,
+scenes/menu_scene.c:            if (!menu[i]->callback)
+scenes/menu_scene.c:            (menu[i]->action == NEW_SCENE_BTN)
+scenes/menu_scene.c:            ? menu[i]->callback(sys, menu[i]->arg)
+scenes/menu_scene.c:            : menu[i]->callback(sys, sys->actual_scene);
+scenes/menu_scene.c:    while (sfRenderWindow_pollEvent(sys->window, &event)) {
+scenes/menu_scene.c:            close_window(sys->window);
+scenes/menu_scene.c:    clear_window(sys->window, sfBlack);
+scenes/menu_scene.c:    draw_img(background, sys->window);
+scenes/menu_scene.c:    draw_img(logo, sys->window);
+scenes/menu_scene.c:    disp_menu(menu, sys->window);
+scenes/menu_scene.c:    display_window(sys->window);
+scenes/menu_scene.c:    while (is_open_window(sys->window) && sys->actual_scene == MENU_SCENE) {
+scenes/menu_scene.c:        sfMouse_getPositionRenderWindow(sys->window));
+scenes/menu_scene.c:        if (sys->actual_scene == EXIT_SCENE)
+scenes/menu_scene.c:        sfClock_restart(sys->clock);
+scenes/pause_scene.c:    while (sfRenderWindow_pollEvent(sys->window, &event)) {
+scenes/pause_scene.c:            close_window(sys->window);
+scenes/pause_scene.c:    sfRenderWindow_drawRectangleShape(sys->window, shader, NULL);
+scenes/pause_scene.c:        draw_lbl(labels[i], sys->window);
+scenes/pause_scene.c:    disp_menu(pause_menu, sys->window);
+scenes/pause_scene.c:    draw_quests(((player_t *) GET_PLAYER(sys->entities))->quests,
+scenes/pause_scene.c:    sys->window);
+scenes/pause_scene.c:    display_window(sys->window);
+scenes/pause_scene.c:    clear_window(sys->window, sfBlack);
+scenes/pause_scene.c:        draw_map(sys->map, sys->window);
+scenes/pause_scene.c:        draw_entities(sys->entities, sys->window);
+scenes/pause_scene.c:        GET_PLAYER(sys->entities))->health.current_health)),
+scenes/pause_scene.c:        GET_PLAYER(sys->entities))->exp.lvl)),
+scenes/pause_scene.c:    while (is_open_window(sys->window) && sys->actual_scene == PAUSE_SCENE) {
+scenes/pause_scene.c:        sfMouse_getPositionRenderWindow(sys->window));
+scenes/pause_scene.c:        sfClock_restart(sys->clock);
+scenes/pause_scene.c:    sfClock_restart(sys->clock);
+scenes/dialog_scene.c:        if (sys->dialog_box->curr_time < DIALOG_SPEED) {
+scenes/dialog_scene.c:            sys->dialog_box->curr_time = DIALOG_SPEED;
+scenes/dialog_scene.c:    while (sfRenderWindow_pollEvent(sys->window, &event)) {
+scenes/dialog_scene.c:            close_window(sys->window);
+scenes/dialog_scene.c:    clear_window(sys->window, sfColor_fromRGBA(200, 25, 255, 0));
+scenes/dialog_scene.c:    draw_map(sys->map, sys->window);
+scenes/dialog_scene.c:    for (i = 0; sys->map->triggers[i]; i++)
+scenes/dialog_scene.c:        draw_trigger(sys->map->triggers[i], sys->window);
+scenes/dialog_scene.c:    draw_entities(sys->entities, sys->window);
+scenes/dialog_scene.c:    sfRenderWindow_drawRectangleShape(sys->window, shader, NULL);
+scenes/dialog_scene.c:    draw_dialog(sys->dialog_box, sys->window);
+scenes/dialog_scene.c:    display_window(sys->window);
+scenes/dialog_scene.c:    if (get_random_dialog(sys->dialog_box, pnj) == EXEC_FAIL)
+scenes/dialog_scene.c:    sys->dialog_box->curr_time = 0;
+scenes/dialog_scene.c:    sys->dialog_box->curr_index = 0;
+scenes/dialog_scene.c:    while (is_open_window(sys->window) && sys->actual_scene == DIALOG_SCENE) {
+scenes/dialog_scene.c:        update_dialog(sys->dialog_box, sys->clock);
+scenes/dialog_scene.c:        sfClock_restart(sys->clock);
+scenes/dialog_scene.c:    sfClock_restart(sys->clock);
+scenes/transition.c:        alpha -= (alpha - FADE_MAX) + 1;
+scenes/transition.c:        alpha -= (alpha - FADE_MAX) + 1;
+scenes/transition.c:        sfColor_fromRGBA(0, 0, 0, FADE_MAX - alpha)
+items/create_items.c:        list_push(&items, tmp, tmp->name);
+items/create_items.c:    item->name = m_strdup(json_object_get_str(obj, "name"));
+items/create_items.c:    item->bonus_attack = json_object_get_int(obj, "bonus_attack");
+items/create_items.c:    item->bonus_vie = json_object_get_int(obj, "bonus_vie");
+items/create_items.c:        item->itm_type = ATTACK_ITEM;
+items/create_items.c:        item->itm_type = HEAL_ITEM;
+items/create_items.c:    free(item->name);
+items/get_object.c:    target = L_TAG(sys->map->items, trigger->name_item);
+items/get_object.c:    list_push(&((player_t *) GET_PLAYER(sys->entities))->bag, target,
+items/get_object.c:    target->name);
+items/get_object.c:    trigger->activate = false;
+items/get_object.c:    change_text(sys->map->action_lbl, "");
+main.c:    while (sys->actual_scene != EXIT_SCENE) {
+main.c:        new_scene = get_scene(sys->actual_scene);
+main.c:    reset_all_sound(sys->sounds);
+environment/camera/camera.c:    camera->map_width = width;
+environment/camera/camera.c:    camera->map_height = height;
+environment/camera/camera.c:            apply_camera(camera, tmp->element);
+environment/camera/camera.c:            tmp = tmp->next;
+environment/camera/apply_camera.c:            map->pos.x + camera->camera.left,
+environment/camera/apply_camera.c:            map->pos.y + camera->camera.top
+environment/camera/apply_camera.c:    set_img_position(map->img, new_pos);
+environment/camera/apply_camera.c:    for (i = 0; map->triggers[i]; i++) {
+environment/camera/apply_camera.c:        if (map->triggers[i]->trigger_type != FIGHT &&
+environment/camera/apply_camera.c:        map->triggers[i]->trigger_type != GET)
+environment/camera/apply_camera.c:        new_pos.x = map->triggers[i]->area.left + (float) camera->camera.left;
+environment/camera/apply_camera.c:        new_pos.y = map->triggers[i]->area.top + (float) camera->camera.top;
+environment/camera/apply_camera.c:        map->triggers[i]->activity_img[ACTIVE_TRIGGER], new_pos);
+environment/camera/apply_camera.c:        map->triggers[i]->activity_img[NOT_ACTIVE_TRIGGER], new_pos);
+environment/camera/apply_camera.c:    switch (ent->type) {
+environment/camera/apply_camera.c:            draw_pos = ent->entity_value.player->pos;
+environment/camera/apply_camera.c:            new_pos.x = draw_pos.x + (float) camera->camera.left;
+environment/camera/apply_camera.c:            new_pos.y = draw_pos.y + (float) camera->camera.top;
+environment/camera/apply_camera.c:            set_img_position(ent->entity_value.player->sheet, new_pos);
+environment/camera/apply_camera.c:            draw_pos = ent->entity_value.pnj->pos;
+environment/camera/apply_camera.c:            new_pos.x = draw_pos.x + (float) camera->camera.left;
+environment/camera/apply_camera.c:            new_pos.y = draw_pos.y + (float) camera->camera.top;
+environment/camera/apply_camera.c:            set_img_position(ent->entity_value.pnj->sheet, new_pos);
+environment/camera/update_camera.c:    int x = -player->pos.x + ((int) (W_SCREEN / 2));
+environment/camera/update_camera.c:    int y = -player->pos.y + ((int) (H_SCREEN / 2));
+environment/camera/update_camera.c:    x = max(-(camera->map_width - W_SCREEN), x);
+environment/camera/update_camera.c:    y = max(-(camera->map_height - H_SCREEN), y);
+environment/camera/update_camera.c:    camera->camera.left = x;
+environment/camera/update_camera.c:    camera->camera.top = y;
+environment/map/collisions.c:    float nx = pnj->pos.x + (pnj->move.x * (float) MOVE_SPEED * dt);
+environment/map/collisions.c:    float ny = pnj->pos.y + (pnj->move.y * (float) MOVE_SPEED * dt);
+environment/map/collisions.c:        pnj->collision_mask.width,
+environment/map/collisions.c:        pnj->collision_mask.height
+environment/map/collisions.c:    for (i = 0; i < map->nb_masks; i++) {
+environment/map/collisions.c:        if (sfFloatRect_intersects(&map->collision_masks[i], &test_rect, NULL))
+environment/map/collisions.c:    float nx = player->pos.x + (player->move.x * (float) MOVE_SPEED * dt);
+environment/map/collisions.c:    float ny = player->pos.y + (player->move.y * (float) MOVE_SPEED * dt);
+environment/map/collisions.c:            player->collision_mask.width,
+environment/map/collisions.c:            player->collision_mask.height
+environment/map/collisions.c:    for (i = 0; i < map->nb_masks; i++) {
+environment/map/collisions.c:        if (sfFloatRect_intersects(&map->collision_masks[i], &test_rect, NULL))
+environment/map/collisions.c:    float nx = player->pos.x + (player->move.x * (float) MOVE_SPEED * dt);
+environment/map/collisions.c:    float ny = player->pos.y + (player->move.y * (float) MOVE_SPEED * dt);
+environment/map/collisions.c:        player->collision_mask.width,
+environment/map/collisions.c:        player->collision_mask.height
+environment/map/collisions.c:    for (i = 0; i < map->nb_ids; i++) {
+environment/map/collisions.c:        tmp = get_entity_value(get_entity_from_id(entities, map->pnj_ids[i]));
+environment/map/collisions.c:        if (sfFloatRect_intersects(&tmp->collision_mask, &test_rect, NULL))
+environment/map/collisions.c:    float nx = pnj->pos.x + (pnj->move.x * (float) MOVE_SPEED * dt);
+environment/map/collisions.c:    float ny = pnj->pos.y + (pnj->move.y * (float) MOVE_SPEED * dt);
+environment/map/collisions.c:        pnj->collision_mask.width,
+environment/map/collisions.c:        pnj->collision_mask.height
+environment/map/collisions.c:    if (sfFloatRect_intersects(&tmp->collision_mask, &test_rect, NULL))
+environment/map/collisions.c:    sfFloatRect *masks = malloc(sizeof(sfFloatRect) * j_array->length);
+environment/map/collisions.c:    for (i = 0; i < j_array->length; i++) {
+environment/map/trigger/create_trigger.c:    trigger->activity_img[NOT_ACTIVE_TRIGGER] =
+environment/map/trigger/create_trigger.c:    trigger->activity_img[ACTIVE_TRIGGER] =
+environment/map/trigger/create_trigger.c:    trigger->activity_img[ACTIVE_TRIGGER],
+environment/map/trigger/create_trigger.c:    (sfVector2f) {trigger->area.left, trigger->area.top}
+environment/map/trigger/create_trigger.c:    trigger->activity_img[NOT_ACTIVE_TRIGGER],
+environment/map/trigger/create_trigger.c:    (sfVector2f) {trigger->area.left, trigger->area.top}
+environment/map/trigger/create_trigger.c:    trigger->area.left = (float) json_object_get_int(area_obj, "x");
+environment/map/trigger/create_trigger.c:    trigger->area.top = (float) json_object_get_int(area_obj, "y");
+environment/map/trigger/create_trigger.c:    trigger->area.width = (float) json_object_get_int(area_obj, "w");
+environment/map/trigger/create_trigger.c:    trigger->area.height = (float) json_object_get_int(area_obj, "h");
+environment/map/trigger/check_trigger.c:        pnj_tmp = get_entity_value(pnjs->element);
+environment/map/trigger/check_trigger.c:                &pnj_tmp->trigger->area,
+environment/map/trigger/check_trigger.c:                &player->collision_mask,
+environment/map/trigger/check_trigger.c:        ) && pnj_tmp->trigger->activate) {
+environment/map/trigger/check_trigger.c:            map->interact = pnj_tmp->trigger->callback;
+environment/map/trigger/check_trigger.c:            map->to_interact_with = pnj_tmp;
+environment/map/trigger/check_trigger.c:            map->selected_trigger = pnj_tmp->trigger;
+environment/map/trigger/check_trigger.c:        pnjs = pnjs->next;
+environment/map/trigger/check_trigger.c:    if (!map->triggers)
+environment/map/trigger/check_trigger.c:    for (i = 0; map->triggers[i]; i++)
+environment/map/trigger/check_trigger.c:                &map->triggers[i]->area,
+environment/map/trigger/check_trigger.c:                &player->collision_mask,
+environment/map/trigger/check_trigger.c:        ) && map->triggers[i]->activate) {
+environment/map/trigger/check_trigger.c:            map->interact = map->triggers[i]->callback;
+environment/map/trigger/check_trigger.c:            map->to_interact_with = map;
+environment/map/trigger/check_trigger.c:            map->selected_trigger = map->triggers[i];
+environment/map/trigger/triggers.c:    if (trigger->activity_img[ACTIVE_TRIGGER] && trigger->activate)
+environment/map/trigger/triggers.c:        draw_img(trigger->activity_img[ACTIVE_TRIGGER], window);
+environment/map/trigger/triggers.c:    if (trigger->activity_img[NOT_ACTIVE_TRIGGER] && !trigger->activate)
+environment/map/trigger/triggers.c:        draw_img(trigger->activity_img[NOT_ACTIVE_TRIGGER], window);
+environment/map/trigger/triggers.c:    map->interact = NULL;
+environment/map/trigger/triggers.c:    map->to_interact_with = NULL;
+environment/map/trigger/triggers.c:    map->selected_trigger = NULL;
+environment/map/trigger/triggers.c:        change_text(map->action_lbl, ACTION_TXT);
+environment/map/trigger/triggers.c:    change_text(map->action_lbl, "");
+environment/map/trigger/init_trigger.c:    trigger->trigger_type = GET;
+environment/map/trigger/init_trigger.c:    trigger->callback = get_object;
+environment/map/trigger/init_trigger.c:    trigger->activate = true;
+environment/map/trigger/init_trigger.c:    trigger->name_item = m_strdup(json_object_get_str(obj, "name"));
+environment/map/trigger/init_trigger.c:    trigger->trigger_type = FIGHT;
+environment/map/trigger/init_trigger.c:    trigger->callback = run_boss_fight;
+environment/map/trigger/init_trigger.c:    trigger->activate = true;
+environment/map/trigger/init_trigger.c:    trigger->trigger_type = DISCUSS;
+environment/map/trigger/init_trigger.c:    trigger->callback = dialog_scene;
+environment/map/trigger/init_trigger.c:    trigger->activate = true;
+environment/map/trigger/init_trigger.c:    trigger->trigger_type = GO;
+environment/map/trigger/init_trigger.c:    trigger->callback = change_world;
+environment/map/trigger/init_trigger.c:    trigger->activate = true;
+environment/map/trigger/init_trigger.c:    trigger->spawn = get_position_from_object(obj, "position");
+environment/map/trigger/init_trigger.c:        trigger->new_map = FOREST;
+environment/map/trigger/init_trigger.c:        trigger->new_map = CAVE;
+environment/map/trigger/init_trigger.c:        trigger->new_map = CITY;
+environment/map/load_map.c:    if (!array->arr)
+environment/map/load_map.c:    ids = malloc(sizeof(float) * array->length);
+environment/map/load_map.c:    for (int i = 0; i < array->length; i++) {
+environment/map/load_map.c:        tmp_pnj = create_pnj_from_json(array->arr[i]);
+environment/map/load_map.c:    map->nb_masks = col_arr.length;
+environment/map/load_map.c:    map->collision_masks = get_masks(&col_arr);
+environment/map/load_map.c:    map->pnj_ids = load_map_pnjs(&pnjs, entities);
+environment/map/load_map.c:    map->nb_ids = pnjs.length;
+environment/map/load_map.c:    map->triggers = load_triggers(json_object_get_array(obj, "triggers"));
+environment/map/load_map.c:    map->items = load_items(json_object_get_array(obj, "items"));
+environment/map/map.c:    map->img = create_image(filepath, NULL);
+environment/map/map.c:    CHECK_MALLOC(map->img)
+environment/map/map.c:    map->pos.x = 0;
+environment/map/map.c:    map->pos.y = 0;
+environment/map/map.c:    tmp = sfSprite_getTextureRect(map->img->sprite);
+environment/map/map.c:    map->size = (sfVector2u) {tmp.width, tmp.height};
+environment/map/map.c:    map->collision_masks = NULL;
+environment/map/map.c:    map->nb_masks = 0;
+environment/map/map.c:    map->interact = NULL;
+environment/map/map.c:    map->action_lbl = create_label(MAIN_FONT, 40, "", sfBlack);
+environment/map/map.c:    map->loc = type;
+environment/map/map.c:    draw_img(map->img, window);
+environment/map/map.c:    draw_lbl(map->action_lbl, window);
+environment/map/map.c:    if (map->pnj_ids)
+environment/map/map.c:        free(map->pnj_ids);
+environment/map/map.c:    image_destroy(map->img);
+environment/map/map.c:    if (map->triggers) {
+environment/map/map.c:        for (i = 0; map->triggers[i]; i++)
+environment/map/map.c:            destroy_trigger(map->triggers[i]);
+environment/map/map.c:        free(map->triggers);

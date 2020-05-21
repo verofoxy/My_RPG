@@ -1,0 +1,40 @@
+[
+  {
+    "name": "BACK",
+    "pos": {
+      "x": 298,
+      "y": 517
+    },
+    "states": {
+      "idle": "./assets/menus/btn.png",
+      "hover": "./assets/menus/btn_hover.png"
+    },
+    "rect": {
+      "x": 370,
+      "y": 121,
+      "w": 218,
+      "h": 77
+    },
+    "action": "NEW_SCENE",
+    "new_scene": 1
+  },
+  {
+    "name": " ",
+    "pos": {
+      "x": 200,
+      "y": 130
+    },
+    "states": {
+      "idle": "./assets/menus/htp.png",
+      "hover": "./assets/menus/htp.png"
+    },
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 400,
+      "h": 379
+    },
+    "action": "NEW_SCENE",
+    "new_scene": 8
+  }
+]

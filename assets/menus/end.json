@@ -1,0 +1,21 @@
+[
+  {
+    "name": "back to menu",
+    "pos": {
+      "x": 300,
+      "y": 500
+    },
+    "states": {
+      "idle": "./assets/menus/btn.png",
+      "hover": "./assets/menus/btn_hover.png"
+    },
+    "rect": {
+      "x": 382,
+      "y": 570,
+      "w": 214,
+      "h": 74
+    },
+    "action": "NEW_SCENE",
+    "new_scene": 1
+  }
+]

@@ -1,0 +1,56 @@
+[
+  {
+    "name": "attack",
+    "pos": {
+      "x": 50,
+      "y": 500
+    },
+    "states": {
+      "idle": "./assets/menus/btn.png",
+      "hover": "./assets/menus/btn_hover.png"
+    },
+    "rect": {
+      "x": 382,
+      "y": 570,
+      "w": 214,
+      "h": 74
+    },
+    "action": "ATTACK"
+  },
+  {
+    "name": "items",
+    "pos": {
+      "x": 300,
+      "y": 500
+    },
+    "states": {
+      "idle": "./assets/menus/btn.png",
+      "hover": "./assets/menus/btn_hover.png"
+    },
+    "rect": {
+      "x": 382,
+      "y": 570,
+      "w": 214,
+      "h": 74
+    },
+    "action": "ITEMS"
+  },
+  {
+    "name": "run away",
+    "pos": {
+      "x": 550,
+      "y": 500
+    },
+    "states": {
+      "idle": "./assets/menus/btn.png",
+      "hover": "./assets/menus/btn_hover.png"
+    },
+    "rect": {
+      "x": 382,
+      "y": 570,
+      "w": 214,
+      "h": 74
+    },
+    "action": "RUN_AWAY"
+  }
+]
